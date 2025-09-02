@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Mr Ai Prime — User</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root{--brand:#2563eb;--muted:#f1f5f9}
+    html,body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    .hide{display:none}
+    .scrollbar-hide::-webkit-scrollbar{display:none}
+    .scrollbar-hide{scrollbar-width:none}
+    .skeleton{background:linear-gradient(90deg,#eceff1 25%,#f5f7fa 37%,#eceff1 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite}
+    @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+  </style>
+</head>
+<body class="h-full bg-white text-gray-900 select-none overflow-hidden">
+  <!-- Sidebar / Drawer -->
+  <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-72 bg-white shadow-xl transform -translate-x-full transition-transform duration-300 will-change-transform">
+    <div class="p-4 flex items-center justify-between border-b">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-bag-shopping text-xl text-blue-600"></i>
+        <span class="font-bold">Mr Ai Prime</span>
+      </div>
+      <button id="closeSidebar" class="p-2 rounded hover:bg-gray-100" aria-label="Close menu"><i class="fa-solid fa-xmark text-xl"></i></button>
+    </div>
+    <nav class="p-4 space-y-2">
+      <a href="#index" class="block p-3 rounded-lg hover:bg-gray-100"><i class="fa-solid fa-house mr-3"></i>Home</a>
+      <a href="#product" class="block p-3 rounded-lg hover:bg-gray-100"><i class="fa-solid fa-grid-2 mr-3"></i>Products</a>
+      <a href="#order" class="block p-3 rounded-lg hover:bg-gray-100"><i class="fa-solid fa-receipt mr-3"></i>Orders</a>
+      <a href="#profile" class="block p-3 rounded-lg hover:bg-gray-100"><i class="fa-solid fa-user mr-3"></i>Profile</a>
+      <button id="logoutBtn" class="w-full text-left p-3 rounded-lg hover:bg-red-50 text-red-600"><i class="fa-solid fa-right-from-bracket mr-3"></i>Logout</button>
+    </nav>
+  </aside>
+
+  <!-- Overlay for drawer -->
+  <div id="overlay" class="fixed inset-0 bg-black/30 z-30 hidden"></div>
+
+  <!-- Header -->
+  <header id="header" class="sticky top-0 z-20 bg-white border-b">
+    <div class="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
+      <button id="openSidebar" class="p-2 -ml-2"><i class="fa-solid fa-bars text-xl"></i></button>
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-bag-shopping text-blue-600 text-xl"></i>
+        <span class="font-bold">Mr Ai Prime</span>
+      </div>
+      <a href="#product" class="p-2"><i class="fa-solid fa-magnifying-glass text-xl"></i></a>
+    </div>
+  </header>
+
+  <!-- Main viewport -->
+  <main id="app" class="max-w-lg mx-auto h-[calc(100vh-56px-56px)] overflow-y-auto scrollbar-hide bg-white">
+    <!-- LOGIN / SIGNUP -->
+    <section id="login" class="p-5 space-y-4">
+      <div class="text-center space-y-1">
+        <div class="text-2xl font-extrabold">Welcome</div>
+        <div class="text-gray-500">Login or create an account</div>
+      </div>
+      <div class="bg-gray-50 rounded-2xl p-2 flex">
+        <button data-tab="loginTab" class="tabBtn flex-1 py-2 rounded-xl font-semibold bg-white shadow">Login</button>
+        <button data-tab="signupTab" class="tabBtn flex-1 py-2 rounded-xl font-semibold text-gray-600">Sign Up</button>
+      </div>
+
+      <form id="loginTab" class="space-y-3">
+        <div>
+          <label class="text-sm text-gray-600">Email</label>
+          <input type="email" id="lemail" class="w-full mt-1 p-3 rounded-xl border focus:outline-none" placeholder="you@example.com" required />
+        </div>
+        <div>
+          <label class="text-sm text-gray-600">Password</label>
+          <input type="password" id="lpass" class="w-full mt-1 p-3 rounded-xl border focus:outline-none" placeholder="••••••••" required />
+        </div>
+        <button class="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold">Login</button>
+      </form>
+
+      <form id="signupTab" class="space-y-3 hidden">
+        <div class="grid grid-cols-1 gap-3">
+          <div>
+            <label class="text-sm text-gray-600">Full name</label>
+            <input type="text" id="sname" class="w-full mt-1 p-3 rounded-xl border" placeholder="Md Rafi" required />
+          </div>
+          <div>
+            <label class="text-sm text-gray-600">Phone</label>
+            <input type="tel" id="sphone" class="w-full mt-1 p-3 rounded-xl border" placeholder="01XXXXXXXXX" required />
+          </div>
+          <div>
+            <label class="text-sm text-gray-600">Email</label>
+            <input type="email" id="semail" class="w-full mt-1 p-3 rounded-xl border" placeholder="you@example.com" required />
+          </div>
+          <div>
+            <label class="text-sm text-gray-600">Password</label>
+            <input type="password" id="spass" class="w-full mt-1 p-3 rounded-xl border" placeholder="••••••••" required />
+          </div>
+        </div>
+        <button class="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold">Create Account</button>
+      </form>
+      <div id="authMsg" class="text-center text-sm text-red-600"></div>
+    </section>
+
+    <!-- HOME -->
+    <section id="index" class="hidden">
+      <!-- Slider under header -->
+      <div class="px-4 pt-4">
+        <div class="relative rounded-2xl overflow-hidden">
+          <div id="homeSlider" class="flex transition-transform duration-500" style="transform:translateX(0)">
+            <img class="w-full h-40 object-cover flex-shrink-0" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1600&auto=format&fit=crop" alt="slide1" />
+            <img class="w-full h-40 object-cover flex-shrink-0" src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1600&auto=format&fit=crop" alt="slide2" />
+            <img class="w-full h-40 object-cover flex-shrink-0" src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1600&auto=format&fit=crop" alt="slide3" />
+          </div>
+          <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/0 to-black/0"></div>
+        </div>
+      </div>
+
+      <!-- Categories horizontal -->
+      <div class="px-4 mt-4">
+        <div class="font-semibold mb-2">Top Categories</div>
+        <div id="catRow" class="flex gap-3 overflow-x-auto scrollbar-hide"></div>
+        <div id="catSkeleton" class="flex gap-3 overflow-x-auto">
+          <div class="w-16 text-center">
+            <div class="w-16 h-16 rounded-full skeleton"></div>
+            <div class="h-3 w-12 mt-2 rounded skeleton"></div>
+          </div>
+          <div class="w-16 text-center">
+            <div class="w-16 h-16 rounded-full skeleton"></div>
+            <div class="h-3 w-12 mt-2 rounded skeleton"></div>
+          </div>
+          <div class="w-16 text-center">
+            <div class="w-16 h-16 rounded-full skeleton"></div>
+            <div class="h-3 w-12 mt-2 rounded skeleton"></div>
+          </div>
+          <div class="w-16 text-center">
+            <div class="w-16 h-16 rounded-full skeleton"></div>
+            <div class="h-3 w-12 mt-2 rounded skeleton"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured products -->
+      <div class="px-4 mt-6">
+        <div class="flex items-center justify-between">
+          <div class="font-semibold">Featured</div>
+          <a href="#product" class="text-blue-600 text-sm">View all</a>
+        </div>
+        <div id="featGrid" class="grid grid-cols-2 gap-3 mt-3"></div>
+        <div id="featSkeleton" class="grid grid-cols-2 gap-3 mt-3">
+          <div class="rounded-2xl p-3 border">
+            <div class="w-full h-28 rounded-xl skeleton"></div>
+            <div class="h-3 w-24 rounded mt-3 skeleton"></div>
+            <div class="h-3 w-16 rounded mt-2 skeleton"></div>
+            <div class="h-8 w-full rounded mt-3 skeleton"></div>
+          </div>
+          <div class="rounded-2xl p-3 border">
+            <div class="w-full h-28 rounded-xl skeleton"></div>
+            <div class="h-3 w-24 rounded mt-3 skeleton"></div>
+            <div class="h-3 w-16 rounded mt-2 skeleton"></div>
+            <div class="h-8 w-full rounded mt-3 skeleton"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT LIST -->
+    <section id="product" class="hidden p-4">
+      <div class="flex items-center gap-2 overflow-x-auto scrollbar-hide">
+        <select id="filterCat" class="px-3 py-2 rounded-xl border bg-white"></select>
+        <select id="filterSort" class="px-3 py-2 rounded-xl border bg-white">
+          <option value="new">Newest</option>
+          <option value="l2h">Price: Low to High</option>
+          <option value="h2l">Price: High to Low</option>
+        </select>
+      </div>
+      <div id="prodGrid" class="grid grid-cols-2 gap-3 mt-4"></div>
+    </section>
+
+    <!-- PRODUCT DETAIL -->
+    <section id="product_detail" class="hidden">
+      <div class="p-4">
+        <div class="relative rounded-2xl overflow-hidden">
+          <div id="pdSlider" class="flex transition-transform duration-500"></div>
+        </div>
+        <div class="mt-4">
+          <div class="text-xl font-bold" id="pdName">—</div>
+          <div class="text-blue-600 font-bold mt-1" id="pdPrice">৳0</div>
+          <div class="text-sm text-gray-600 mt-1" id="pdStock">In stock</div>
+          <div class="text-gray-700 mt-3" id="pdDesc"></div>
+        </div>
+        <div class="mt-4 flex items-center gap-3">
+          <div class="flex items-center border rounded-xl overflow-hidden">
+            <button id="qtyMinus" class="px-4 py-2">-</button>
+            <input id="qtyInput" type="number" value="1" min="1" class="w-12 text-center py-2 outline-none" />
+            <button id="qtyPlus" class="px-4 py-2">+</button>
+          </div>
+          <button id="addToCart" class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-semibold">
+            <i class="fa-solid fa-cart-plus mr-2"></i>Add to Cart
+          </button>
+        </div>
+        <div class="mt-6">
+          <div class="font-semibold mb-2">Related</div>
+          <div id="relGrid" class="grid grid-cols-2 gap-3"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CART -->
+    <section id="cart" class="hidden p-4">
+      <div id="cartList" class="space-y-3"></div>
+      <div class="fixed bottom-16 left-1/2 -translate-x-1/2 w-full max-w-lg px-4">
+        <div class="bg-white border rounded-2xl p-4 shadow-lg flex items-center justify-between">
+          <div>
+            <div class="text-sm text-gray-500">Total</div>
+            <div id="cartTotal" class="text-xl font-bold">৳0</div>
+          </div>
+          <a href="#checkout" class="bg-blue-600 text-white px-5 py-3 rounded-xl font-semibold">Checkout</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHECKOUT -->
+    <section id="checkout" class="hidden p-4 space-y-3">
+      <form id="checkoutForm" class="space-y-3">
+        <div>
+          <label class="text-sm text-gray-600">Full name</label>
+          <input id="cName" class="w-full mt-1 p-3 rounded-xl border" required />
+        </div>
+        <div>
+          <label class="text-sm text-gray-600">Phone</label>
+          <input id="cPhone" class="w-full mt-1 p-3 rounded-xl border" required />
+        </div>
+        <div>
+          <label class="text-sm text-gray-600">Address</label>
+          <textarea id="cAddr" class="w-full mt-1 p-3 rounded-xl border" rows="3" required></textarea>
+        </div>
+        <div class="p-3 rounded-xl border bg-gray-50">
+          <div class="font-semibold">Payment</div>
+          <div class="mt-2 flex items-center gap-2">
+            <input type="radio" checked id="payCOD" /> <label for="payCOD">Cash on Delivery</label>
+          </div>
+        </div>
+        <button class="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold">Place Order</button>
+      </form>
+    </section>
+
+    <!-- ORDERS -->
+    <section id="order" class="hidden p-4">
+      <div class="bg-gray-100 rounded-xl p-1 flex text-sm">
+        <button data-order-tab="active" class="orderTab flex-1 py-2 rounded-lg bg-white shadow font-semibold">Active Orders</button>
+        <button data-order-tab="history" class="orderTab flex-1 py-2 rounded-lg text-gray-600">Order History</button>
+      </div>
+      <div id="orderActive" class="mt-4 space-y-3"></div>
+      <div id="orderHistory" class="mt-4 space-y-3 hidden"></div>
+    </section>
+
+    <!-- PROFILE -->
+    <section id="profile" class="hidden p-4 space-y-4">
+      <form id="profileForm" class="space-y-3">
+        <div class="grid grid-cols-1 gap-3">
+          <div>
+            <label class="text-sm text-gray-600">Full name</label>
+            <input id="pName" class="w-full mt-1 p-3 rounded-xl border" required />
+          </div>
+          <div>
+            <label class="text-sm text-gray-600">Email</label>
+            <input id="pEmail" type="email" class="w-full mt-1 p-3 rounded-xl border bg-gray-50" disabled />
+          </div>
+          <div>
+            <label class="text-sm text-gray-600">Phone</label>
+            <input id="pPhone" class="w-full mt-1 p-3 rounded-xl border" />
+          </div>
+          <div>
+            <label class="text-sm text-gray-600">Address</label>
+            <textarea id="pAddr" class="w-full mt-1 p-3 rounded-xl border" rows="3"></textarea>
+          </div>
+        </div>
+        <button class="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold">Save Profile</button>
+      </form>
+
+      <div class="border-t pt-4">
+        <div class="font-semibold mb-2">Change password</div>
+        <form id="passForm" class="space-y-3">
+          <input id="newPass" type="password" class="w-full p-3 rounded-xl border" placeholder="New password" required />
+          <button class="w-full bg-gray-900 text-white py-3 rounded-xl font-semibold">Update Password</button>
+        </form>
+      </div>
+      <button id="logoutBtn2" class="w-full bg-red-600 text-white py-3 rounded-xl font-semibold">Logout</button>
+    </section>
+  </main>
+
+  <!-- Bottom navigation -->
+  <nav id="bottom" class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-lg bg-white border-t z-20">
+    <div class="grid grid-cols-3 text-center h-14">
+      <a href="#index" class="flex flex-col items-center justify-center text-sm">
+        <i class="fa-solid fa-house"></i><span>Home</span>
+      </a>
+      <a href="#cart" class="flex flex-col items-center justify-center text-sm relative">
+        <i class="fa-solid fa-cart-shopping"></i><span>Cart</span>
+        <span id="cartBadge" class="absolute top-1 right-8 text-[10px] bg-blue-600 text-white px-1.5 py-0.5 rounded-full hidden">0</span>
+      </a>
+      <a href="#profile" class="flex flex-col items-center justify-center text-sm">
+        <i class="fa-solid fa-user"></i><span>Profile</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Loading modal -->
+  <div id="loader" class="fixed inset-0 bg-black/20 z-[60] hidden items-center justify-center">
+    <div class="w-24 h-24 bg-white rounded-2xl grid place-items-center shadow-lg">
+      <div class="flex gap-1">
+        <div class="w-2 h-2 bg-blue-600 rounded-full animate-bounce [animation-delay:-.2s]"></div>
+        <div class="w-2 h-2 bg-blue-600 rounded-full animate-bounce [animation-delay:-.1s]"></div>
+        <div class="w-2 h-2 bg-blue-600 rounded-full animate-bounce"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase + App Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script>
+    // IMPORTANT: Replace with your credentials
+    // Placeholder config for easy swapping later
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      databaseURL: "YOUR_DATABASE_URL",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Init Firebase
+    const appFB = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    // UI helpers
+    const qs = (s)=>document.querySelector(s);
+    const qsa = (s)=>Array.from(document.querySelectorAll(s));
+    const show = (el)=>el.classList.remove('hidden');
+    const hide = (el)=>el.classList.add('hidden');
+    const money = (n)=>`৳${Number(n||0).toLocaleString('en-BD')}`;
+    const loading = (flag)=>{ qs('#loader').classList.toggle('hidden', !flag); };
+
+    // Disable context menu, text selection, zoom
+    window.addEventListener('contextmenu',e=>e.preventDefault());
+    document.addEventListener('selectstart',e=>e.preventDefault());
+    document.addEventListener('keydown',e=>{ if((e.ctrlKey||e.metaKey) && ['+','-','=','_','0'].includes(e.key)) e.preventDefault(); });
+    document.addEventListener('wheel',e=>{ if(e.ctrlKey) e.preventDefault(); }, {passive:false});
+
+    // Drawer logic
+    const sidebar = qs('#sidebar');
+    const overlay = qs('#overlay');
+    const openDrawer = ()=>{ sidebar.classList.remove('-translate-x-full'); overlay.classList.remove('hidden'); };
+    const closeDrawer = ()=>{ sidebar.classList.add('-translate-x-full'); overlay.classList.add('hidden'); };
+    qs('#openSidebar').addEventListener('click', openDrawer);
+    qs('#closeSidebar').addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+
+    // Tabs for auth
+    qsa('.tabBtn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        qsa('.tabBtn').forEach(b=>{ b.classList.remove('bg-white','shadow','text-gray-900'); b.classList.add('text-gray-600'); });
+        btn.classList.add('bg-white','shadow'); btn.classList.remove('text-gray-600');
+        hide(qs('#loginTab')); hide(qs('#signupTab'));
+        show(qs('#'+btn.dataset.tab));
+      });
+    });
+
+    // Simple router
+    const routes = ['login','index','product','product_detail','cart','checkout','order','profile'];
+    function navigate(){
+      const hash = location.hash.replace('#','') || 'index';
+      routes.forEach(id=>hide(qs('#'+id)));
+      show(qs('#'+hash));
+    }
+    window.addEventListener('hashchange', navigate);
+
+    // Auth state
+    auth.onAuthStateChanged(async (user)=>{
+      if(user){
+        // Load initial data
+        loadHome();
+        updateCartBadge();
+        // Prefill profile
+        const snap = await db.ref('users/'+user.uid).get();
+        const u = snap.val()||{};
+        qs('#pName').value = u.name||''; qs('#pEmail').value = user.email||''; qs('#pPhone').value = u.phone||''; qs('#pAddr').value = u.address||'';
+        if(location.hash=='' || location.hash=='#login') location.hash = '#index';
+      }else{
+        location.hash = '#login';
+      }
+      navigate();
+    });
+
+    // Auth actions
+    qs('#loginTab').addEventListener('submit', async (e)=>{
+      e.preventDefault(); loading(true); qs('#authMsg').textContent='';
+      try{ await auth.signInWithEmailAndPassword(qs('#lemail').value.trim(), qs('#lpass').value); location.hash = '#index'; }
+      catch(err){ qs('#authMsg').textContent = err.message; }
+      finally{ loading(false); }
+    });
+    qs('#signupTab').addEventListener('submit', async (e)=>{
+      e.preventDefault(); loading(true); qs('#authMsg').textContent='';
+      try{
+        const cred = await auth.createUserWithEmailAndPassword(qs('#semail').value.trim(), qs('#spass').value);
+        await db.ref('users/'+cred.user.uid).set({
+          name: qs('#sname').value.trim(), phone: qs('#sphone').value.trim(), email: cred.user.email, address: ''
+        });
+        location.hash = '#index';
+      }catch(err){ qs('#authMsg').textContent = err.message; }
+      finally{ loading(false); }
+    });
+    const doLogout = ()=>auth.signOut();
+    qs('#logoutBtn').addEventListener('click', doLogout);
+    qs('#logoutBtn2').addEventListener('click', doLogout);
+
+    // Home data
+    async function loadHome(){
+      // Slider autoplay 2s
+      const slider = qs('#homeSlider');
+      let idx=0; setInterval(()=>{ idx=(idx+1)%3; slider.style.transform = `translateX(-${idx*100}%)`; },2000);
+
+      // Categories
+      show(qs('#catSkeleton')); hide(qs('#catRow'));
+      const cats = (await db.ref('categories').get()).val()||{};
+      const arr = Object.entries(cats).map(([id,c])=>({id,...c}));
+      const row = qs('#catRow'); row.innerHTML='';
+      arr.forEach(c=>{
+        const d = document.createElement('button');
+        d.className='w-16 flex-shrink-0 text-center';
+        d.innerHTML=`<div class="w-16 h-16 rounded-full bg-gray-100 grid place-items-center overflow-hidden"><img src="${c.image||''}" class="w-full h-full object-cover"/></div><div class="text-xs mt-1">${c.name||'—'}</div>`;
+        d.onclick=()=>{ location.hash='#product'; qs('#filterCat').value=c.id; renderProducts(); };
+        row.appendChild(d);
+      });
+      hide(qs('#catSkeleton')); show(row);
+
+      // Populate filter categories
+      const sel = qs('#filterCat'); sel.innerHTML='<option value="all">All</option>' + arr.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+
+      // Featured products
+      show(qs('#featSkeleton')); hide(qs('#featGrid'));
+      const prods = (await db.ref('products').limitToFirst(10).get()).val()||{};
+      renderProductCards('#featGrid', prods);
+      hide(qs('#featSkeleton')); show(qs('#featGrid'));
+    }
+
+    function renderProductCards(selector, prods){
+      const grid = qs(selector); grid.innerHTML='';
+      Object.entries(prods).forEach(([pid,p])=>{
+        const card = document.createElement('div');
+        card.className='rounded-2xl p-3 border hover:shadow transition';
+        card.innerHTML=`
+          <div class="w-full h-28 rounded-xl bg-gray-100 overflow-hidden"><img src="${p.image}" class="w-full h-full object-cover"/></div>
+          <div class="mt-2 font-medium line-clamp-1">${p.name}</div>
+          <div class="text-blue-600 font-bold">${money(p.price)}</div>
+          <div class="mt-2 grid grid-cols-2 gap-2">
+            <button class="px-3 py-2 rounded-lg border" data-view>View</button>
+            <button class="px-3 py-2 rounded-lg bg-blue-600 text-white" data-add>Add</button>
+          </div>`;
+        card.querySelector('[data-view]').onclick=()=>openProduct(pid,p);
+        card.querySelector('[data-add]').onclick=()=>addCart(pid,1,p);
+        grid.appendChild(card);
+      });
+    }
+
+    async function renderProducts(){
+      const cat = qs('#filterCat').value; const sort = qs('#filterSort').value;
+      const all = (await db.ref('products').get()).val()||{};
+      let arr = Object.entries(all).map(([id,p])=>({id,...p}));
+      if(cat!=='all') arr = arr.filter(p=>p.category===cat);
+      if(sort==='l2h') arr.sort((a,b)=>a.price-b.price);
+      if(sort==='h2l') arr.sort((a,b)=>b.price-a.price);
+      const obj = {}; arr.forEach(p=>obj[p.id]=p);
+      renderProductCards('#prodGrid', obj);
+    }
+    qs('#filterCat').addEventListener('change', renderProducts);
+    qs('#filterSort').addEventListener('change', renderProducts);
+
+    function openProduct(pid,p){
+      location.hash='#product_detail';
+      const slider = qs('#pdSlider'); slider.innerHTML='';
+      [p.image, p.image2||p.image, p.image3||p.image].forEach(src=>{
+        const img = document.createElement('img'); img.src=src; img.className='w-full h-56 object-cover flex-shrink-0'; slider.appendChild(img);
+      });
+      let idx=0; setInterval(()=>{ const count=slider.children.length; idx=(idx+1)%count; slider.style.transform=`translateX(-${idx*100}%)`; },2000);
+      qs('#pdName').textContent=p.name; qs('#pdPrice').textContent=money(p.price); qs('#pdDesc').textContent=p.desc||''; qs('#pdStock').textContent=(p.stock>0?'In stock':'Out of stock');
+      qs('#qtyInput').value=1;
+      qs('#addToCart').onclick=()=>addCart(pid, Number(qs('#qtyInput').value)||1, p);
+      qs('#qtyMinus').onclick=()=>{ const n=Math.max(1,Number(qs('#qtyInput').value)-1); qs('#qtyInput').value=n; };
+      qs('#qtyPlus').onclick=()=>{ const n=Number(qs('#qtyInput').value)+1; qs('#qtyInput').value=n; };
+      // Related
+      db.ref('products').limitToFirst(6).get().then(s=>{
+        const list = s.val()||{}; const grid = qs('#relGrid'); grid.innerHTML='';
+        Object.entries(list).forEach(([rid,r])=>{
+          if(rid===pid) return; const d=document.createElement('div');
+          d.className='rounded-xl border p-2';
+          d.innerHTML=`<div class=\"w-full h-24 rounded-lg overflow-hidden\"><img src=\"${r.image}\" class=\"w-full h-full object-cover\"/></div><div class=\"text-xs mt-1 line-clamp-1\">${r.name}</div><div class=\"text-blue-600 font-semibold text-sm\">${money(r.price)}</div>`;
+          d.onclick=()=>openProduct(rid,r);
+          grid.appendChild(d);
+        });
+      });
+    }
+
+    async function addCart(pid, qty, pCache){
+      const user = auth.currentUser; if(!user){ location.hash='#login'; return; }
+      loading(true);
+      try{
+        const item = pCache || (await db.ref('products/'+pid).get()).val();
+        const ref = db.ref(`carts/${user.uid}/${pid}`);
+        const snap = await ref.get();
+        const prev = snap.val()||{qty:0};
+        await ref.set({
+          pid, name:item.name, price:item.price, image:item.image, qty:(prev.qty||0)+qty
+        });
+        updateCartBadge();
+      }finally{ loading(false); }
+    }
+
+    async function updateCartBadge(){
+      const user = auth.currentUser; if(!user){ qs('#cartBadge').classList.add('hidden'); return; }
+      const snap = await db.ref('carts/'+user.uid).get();
+      const n = Object.values(snap.val()||{}).reduce((a,b)=>a+(b.qty||0),0);
+      const b = qs('#cartBadge'); b.textContent=n; b.classList.toggle('hidden', n===0);
+      renderCart();
+    }
+
+    async function renderCart(){
+      if(location.hash!=='#cart') return; // avoid extra work when not visible
+      const user = auth.currentUser; if(!user) return;
+      const list = (await db.ref('carts/'+user.uid).get()).val()||{};
+      const wrap = qs('#cartList'); wrap.innerHTML='';
+      let total=0;
+      Object.entries(list).forEach(([pid,item])=>{
+        total += (item.price||0)*(item.qty||0);
+        const d = document.createElement('div');
+        d.className='p-3 rounded-2xl border flex items-center gap-3';
+        d.innerHTML=`
+          <img src="${item.image}" class="w-16 h-16 rounded-xl object-cover"/>
+          <div class="flex-1">
+            <div class="font-medium line-clamp-1">${item.name}</div>
+            <div class="text-blue-600 font-bold">${money(item.price)}</div>
+            <div class="mt-1 flex items-center gap-2">
+              <button class="px-2 py-1 border rounded" data-minus>-</button>
+              <input class="w-12 text-center border rounded py-1" value="${item.qty}" />
+              <button class="px-2 py-1 border rounded" data-plus>+</button>
+            </div>
+          </div>
+          <button class="p-2 text-red-600" title="Remove" data-del><i class="fa-solid fa-trash"></i></button>`;
+        d.querySelector('[data-minus]').onclick=()=>updateQty(pid, (item.qty||1)-1);
+        d.querySelector('[data-plus]').onclick=()=>updateQty(pid, (item.qty||0)+1);
+        d.querySelector('[data-del]').onclick=()=>db.ref(`carts/${auth.currentUser.uid}/${pid}`).remove().then(updateCartBadge);
+        wrap.appendChild(d);
+      });
+      qs('#cartTotal').textContent = money(total);
+    }
+    async function updateQty(pid, qty){ if(qty<=0){ await db.ref(`carts/${auth.currentUser.uid}/${pid}`).remove(); } else { await db.ref(`carts/${auth.currentUser.uid}/${pid}/qty`).set(qty); } updateCartBadge(); }
+
+    // Checkout
+    qs('#checkoutForm').addEventListener('submit', async (e)=>{
+      e.preventDefault(); const user=auth.currentUser; if(!user) return;
+      loading(true);
+      try{
+        const cartSnap = await db.ref('carts/'+user.uid).get();
+        const items = cartSnap.val()||{}; if(Object.keys(items).length===0){ alert('Cart is empty'); loading(false); return; }
+        const total = Object.values(items).reduce((a,b)=>a+(b.price*b.qty),0);
+        const order = { uid:user.uid, name:qs('#cName').value.trim(), phone:qs('#cPhone').value.trim(), address:qs('#cAddr').value.trim(), items, amount:total, status:'Placed', createdAt:Date.now(), payment:'COD' };
+        const newRef = db.ref('orders/'+user.uid).push();
+        await newRef.set(order);
+        await db.ref('orders_all/'+newRef.key).set(order); // admin view
+        await db.ref('carts/'+user.uid).remove();
+        updateCartBadge();
+        location.hash = '#order';
+        renderOrders();
+      }finally{ loading(false); }
+    });
+
+    // Orders
+    qsa('.orderTab').forEach(b=>b.addEventListener('click',()=>{
+      qsa('.orderTab').forEach(x=>{ x.classList.remove('bg-white','shadow'); x.classList.add('text-gray-600'); });
+      b.classList.add('bg-white','shadow'); b.classList.remove('text-gray-600');
+      const tab=b.dataset.orderTab; qs('#orderActive').classList.toggle('hidden', tab!=='active'); qs('#orderHistory').classList.toggle('hidden', tab!=='history');
+    }));
+
+    async function renderOrders(){
+      const user=auth.currentUser; if(!user) return;
+      const data=(await db.ref('orders/'+user.uid).orderByChild('createdAt').get()).val()||{};
+      const arr=Object.entries(data).map(([id,o])=>({id,...o})).sort((a,b)=>b.createdAt-a.createdAt);
+      const active=arr.filter(o=>o.status!=='Delivered' && o.status!=='Cancelled');
+      const history=arr.filter(o=>o.status==='Delivered' || o.status==='Cancelled');
+      const render=(list,wrapId)=>{
+        const wrap=qs(wrapId); wrap.innerHTML='';
+        list.forEach(o=>{
+          const d=document.createElement('div'); d.className='rounded-2xl border p-3 shadow-sm';
+          const firstItem = Object.values(o.items)[0];
+          d.innerHTML=`
+            <div class="flex gap-3">
+              <img src="${firstItem.image}" class="w-16 h-16 rounded-xl object-cover"/>
+              <div class="flex-1">
+                <div class="font-semibold line-clamp-1">${firstItem.name} ${Object.keys(o.items).length>1?`+${Object.keys(o.items).length-1} more`:''}</div>
+                <div class="text-blue-600 font-bold">${money(o.amount)}</div>
+                <div class="text-xs text-gray-500">${new Date(o.createdAt).toLocaleString()}</div>
+              </div>
+              <button class="px-3 py-2 rounded-lg border" data-toggle>View Details</button>
+            </div>
+            <div class="mt-3 hidden" data-body>
+              ${Object.values(o.items).map(it=>`<div class=\"flex items-center gap-3 mb-2\"><img src=\"${it.image}\" class=\"w-12 h-12 rounded-lg object-cover\"/><div class=\"flex-1\"><div class=\"text-sm\">${it.name}</div><div class=\"text-xs text-gray-500\">Qty: ${it.qty}</div></div><div class=\"text-sm font-semibold\">${money(it.price*it.qty)}</div></div>`).join('')}
+              <div class="mt-3">
+                <div class="font-semibold mb-2">Status</div>
+                ${progressHTML(o.status)}
+              </div>
+            </div>`;
+          d.querySelector('[data-toggle]').onclick=()=>d.querySelector('[data-body]').classList.toggle('hidden');
+          qs(wrapId).appendChild(d);
+        });
+      };
+      render(active,'#orderActive'); render(history,'#orderHistory');
+    }
+
+    function progressHTML(status){
+      const steps=['Placed','Dispatched','Delivered'];
+      const idx=Math.max(steps.indexOf(status),0);
+      const line=(i)=>`<div class=\"flex-1 h-1 ${i<=idx? 'bg-blue-600':'bg-gray-200'}\"></div>`;
+      return `
+      <div class="flex items-center">
+        <div class="flex items-center">
+          <div class="w-8 h-8 rounded-full grid place-items-center ${idx>=0?'bg-blue-600 text-white':'bg-gray-200'}"><i class="fa-solid fa-clipboard-check"></i></div>
+        </div>
+        ${line(1)}
+        <div class="w-8 h-8 rounded-full grid place-items-center ${idx>=1?'bg-blue-600 text-white':'bg-gray-200'}"><i class="fa-solid fa-truck"></i></div>
+        ${line(2)}
+        <div class="w-8 h-8 rounded-full grid place-items-center ${idx>=2?'bg-blue-600 text-white':'bg-gray-200'}"><i class="fa-solid fa-box-open"></i></div>
+      </div>
+      <div class="flex justify-between text-xs text-gray-600 mt-2">
+        <div>Placed</div><div>Dispatched</div><div>Delivered</div>
+      </div>`;
+    }
+
+    // Profile save
+    qs('#profileForm').addEventListener('submit',async (e)=>{
+      e.preventDefault(); const u=auth.currentUser; if(!u) return; loading(true);
+      try{
+        await db.ref('users/'+u.uid).update({
+          name:qs('#pName').value.trim(), phone:qs('#pPhone').value.trim(), address:qs('#pAddr').value.trim()
+        });
+        alert('Profile saved');
+      }finally{ loading(false); }
+    });
+    qs('#passForm').addEventListener('submit',async (e)=>{
+      e.preventDefault(); const u=auth.currentUser; if(!u) return; loading(true);
+      try{ await u.updatePassword(qs('#newPass').value); alert('Password updated'); }
+      catch(err){ alert(err.message); }
+      finally{ loading(false); }
+    });
+
+    // Route enter hooks
+    window.addEventListener('hashchange',()=>{
+      if(location.hash==='#product') renderProducts();
+      if(location.hash==='#cart') renderCart();
+      if(location.hash==='#order') renderOrders();
+      if(location.hash==='#checkout') prefillCheckout();
+    });
+    function prefillCheckout(){ const u=auth.currentUser; if(!u) return; db.ref('users/'+u.uid).get().then(s=>{const d=s.val()||{}; qs('#cName').value=d.name||''; qs('#cPhone').value=d.phone||''; qs('#cAddr').value=d.address||'';}); }
+
+    // Initial
+    navigate();
+  </script>
+
+  <!-- Optional: Database Rules template for quick copy (not executed) -->
+  <script type="application/json" id="firebase_rules">{
+    "rules": {
+      ".read": false,
+      ".write": false,
+      "users": {"$uid": {".read": "$uid === auth.uid", ".write": "$uid === auth.uid"}},
+      "carts": {"$uid": {".read": "$uid === auth.uid", ".write": "$uid === auth.uid"}},
+      "orders": {"$uid": {".read": "$uid === auth.uid", ".write": "$uid === auth.uid"}},
+      "orders_all": {".read": false, ".write": "auth != null"},
+      "categories": {".read": true, ".write": "auth != null"},
+      "products": {".read": true, ".write": "auth != null"},
+      "sliders": {".read": true, ".write": "auth != null"}
+    }
+  }</script>
+</body>
+</html>
+

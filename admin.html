@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+  <title>Mr Ai Prime — Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    html,body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    .scrollbar-hide::-webkit-scrollbar{display:none}
+    .scrollbar-hide{scrollbar-width:none}
+    .skeleton{background:linear-gradient(90deg,#eceff1 25%,#f5f7fa 37%,#eceff1 63%);background-size:400% 100%;animation:shimmer 1.4s ease infinite}
+    @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+  </style>
+</head>
+<body class="h-full bg-white text-gray-900 select-none overflow-hidden">
+  <!-- Drawer -->
+  <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-72 bg-white shadow-xl transform -translate-x-full transition-transform">
+    <div class="p-4 flex items-center justify-between border-b">
+      <div class="font-bold"><i class="fa-solid fa-shield-halved text-blue-600 mr-2"></i>Admin</div>
+      <button id="closeSidebar" class="p-2" aria-label="Close"><i class="fa-solid fa-xmark text-xl"></i></button>
+    </div>
+    <nav class="p-3 space-y-1 text-sm">
+      <a href="#index" class="block p-3 rounded-lg hover:bg-gray-100"><i class="fa-solid fa-gauge-high mr-2"></i>Dashboard</a>
+      <a href="#category" class="block p-3 rounded-lg hover:bg-gray-100"><i class="fa-solid fa-folder-tree mr-2"></i>Categories</a>
+      <a href="#product" class="block p-3 rounded-lg hover:bg-gray-100"><i class="fa-solid fa-box mr-2"></i>Products</a>
+      <a href="#slider" class="block p-3 rounded-lg hover:bg-gray-100"><i class="fa-solid fa-images mr-2"></i>Slider</a>
+      <a href="#order" class="block p-3 rounded-lg hover:bg-gray-100"><i class="fa-solid fa-receipt mr-2"></i>Orders</a>
+      <a href="#users" class="block p-3 rounded-lg hover:bg-gray-100"><i class="fa-solid fa-users mr-2"></i>Users</a>
+      <a href="#setting" class="block p-3 rounded-lg hover:bg-gray-100"><i class="fa-solid fa-gear mr-2"></i>Settings</a>
+      <button id="logoutBtn" class="w-full text-left p-3 rounded-lg hover:bg-red-50 text-red-600"><i class="fa-solid fa-right-from-bracket mr-2"></i>Logout</button>
+    </nav>
+  </aside>
+  <div id="overlay" class="fixed inset-0 bg-black/30 z-30 hidden"></div>
+
+  <header class="sticky top-0 z-20 bg-white border-b">
+    <div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+      <button id="openSidebar" class="p-2 -ml-2"><i class="fa-solid fa-bars text-xl"></i></button>
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-bag-shopping text-blue-600"></i>
+        <div class="font-bold">Mr Ai Prime Admin</div>
+      </div>
+      <div class="text-sm" id="adminEmail">—</div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto h-[calc(100vh-56px)] overflow-y-auto scrollbar-hide">
+    <!-- LOGIN -->
+    <section id="login" class="p-6">
+      <div class="max-w-sm mx-auto">
+        <div class="text-center mb-4">
+          <div class="text-2xl font-extrabold">Admin Login</div>
+          <div class="text-gray-500 text-sm">Only the first email becomes the main admin</div>
+        </div>
+        <form id="loginForm" class="space-y-3">
+          <input id="email" type="email" class="w-full p-3 rounded-xl border" placeholder="admin@gmail.com" required />
+          <input id="pass" type="password" class="w-full p-3 rounded-xl border" placeholder="••••••••" required />
+          <button class="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold">Login</button>
+        </form>
+        <div id="loginMsg" class="text-center text-sm text-red-600 mt-2"></div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="index" class="hidden p-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div class="rounded-2xl p-4 text-white bg-blue-600 shadow">
+          <div class="text-sm opacity-90">Users</div><div id="cardUsers" class="text-2xl font-extrabold">0</div>
+        </div>
+        <div class="rounded-2xl p-4 text-white bg-emerald-600 shadow">
+          <div class="text-sm opacity-90">Orders</div><div id="cardOrders" class="text-2xl font-extrabold">0</div>
+        </div>
+        <div class="rounded-2xl p-4 text-white bg-purple-600 shadow">
+          <div class="text-sm opacity-90">Revenue</div><div id="cardRevenue" class="text-2xl font-extrabold">৳0</div>
+        </div>
+        <div class="rounded-2xl p-4 text-white bg-rose-600 shadow">
+          <div class="text-sm opacity-90">Products</div><div id="cardProducts" class="text-2xl font-extrabold">0</div>
+        </div>
+      </div>
+
+      <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+        <div class="p-3 rounded-xl border">
+          <div class="font-semibold mb-2">Quick Actions</div>
+          <div class="grid grid-cols-2 gap-2">
+            <a href="#product" class="px-3 py-2 rounded-lg bg-blue-600 text-white text-center">Add Product</a>
+            <a href="#category" class="px-3 py-2 rounded-lg bg-gray-900 text-white text-center">Add Category</a>
+            <a href="#slider" class="px-3 py-2 rounded-lg border text-center">Manage Slider</a>
+            <a href="#order" class="px-3 py-2 rounded-lg border text-center">View Orders</a>
+          </div>
+        </div>
+        <div class="p-3 rounded-xl border">
+          <div class="font-semibold mb-2">Sales Split</div>
+          <!-- Simple pie via CSS (no external chart lib) -->
+          <div class="relative w-28 h-28 mx-auto rounded-full bg-[conic-gradient(var(--c1)_0_40%,var(--c2)_40%_70%,var(--c3)_70%_100%)]" style="--c1:#22c55e;--c2:#3b82f6;--c3:#f59e0b"></div>
+          <div class="mt-2 grid grid-cols-3 text-xs text-center">
+            <div class="text-emerald-600">COD</div>
+            <div class="text-blue-600">Bkash</div>
+            <div class="text-amber-600">Others</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORY -->
+    <section id="category" class="hidden p-4">
+      <form id="catForm" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <input id="catId" class="hidden"/>
+        <input id="catName" class="p-3 rounded-xl border" placeholder="Category name" required />
+        <input id="catImage" class="p-3 rounded-xl border" placeholder="Image URL" required />
+        <button class="bg-blue-600 text-white rounded-xl px-4">Save</button>
+      </form>
+      <div id="catList" class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+    </section>
+
+    <!-- PRODUCT -->
+    <section id="product" class="hidden p-4">
+      <form id="prodForm" class="grid grid-cols-1 md:grid-cols-6 gap-3">
+        <input id="prodId" class="hidden"/>
+        <select id="prodCat" class="p-3 rounded-xl border md:col-span-1" required></select>
+        <input id="prodName" class="p-3 rounded-xl border md:col-span-1" placeholder="Name" required />
+        <input id="prodDesc" class="p-3 rounded-xl border md:col-span-2" placeholder="Short description" />
+        <input id="prodPrice" type="number" class="p-3 rounded-xl border" placeholder="Price" required />
+        <input id="prodStock" type="number" class="p-3 rounded-xl border" placeholder="Stock" required />
+        <input id="prodImage" class="p-3 rounded-xl border md:col-span-2" placeholder="Image URL" required />
+        <button class="bg-blue-600 text-white rounded-xl px-4 md:col-span-1">Save</button>
+      </form>
+      <div id="prodList" class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+    </section>
+
+    <!-- SLIDER -->
+    <section id="slider" class="hidden p-4">
+      <form id="slideForm" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <input id="slideId" class="hidden"/>
+        <input id="slideImage" class="p-3 rounded-xl border" placeholder="Image URL" required />
+        <input id="slideLink" class="p-3 rounded-xl border" placeholder="Direct link (optional)" />
+        <button class="bg-blue-600 text-white rounded-xl px-4">Save</button>
+      </form>
+      <div id="slideList" class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+    </section>
+
+    <!-- ORDER LIST -->
+    <section id="order" class="hidden p-4">
+      <div id="orderTable" class="space-y-2"></div>
+    </section>
+
+    <!-- ORDER DETAIL -->
+    <section id="order_detail" class="hidden p-4">
+      <div id="odWrap" class="space-y-3"></div>
+    </section>
+
+    <!-- USERS -->
+    <section id="users" class="hidden p-4">
+      <div id="userList" class="space-y-2"></div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="setting" class="hidden p-4 space-y-4">
+      <form id="appForm" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <input id="appName" class="p-3 rounded-xl border" placeholder="App name" />
+        <input id="appLogo" class="p-3 rounded-xl border" placeholder="Logo URL" />
+        <button class="bg-blue-600 text-white rounded-xl px-4">Save App</button>
+      </form>
+      <form id="adminForm" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <input id="newPass" type="password" class="p-3 rounded-xl border" placeholder="New admin password" />
+        <button class="bg-gray-900 text-white rounded-xl px-4">Update Password</button>
+      </form>
+      <div class="text-sm text-gray-500">Only the first logged-in email is saved as main admin.</div>
+    </section>
+  </main>
+
+  <!-- Loader -->
+  <div id="loader" class="fixed inset-0 bg-black/20 z-[60] hidden items-center justify-center">
+    <div class="w-24 h-24 bg-white rounded-2xl grid place-items-center shadow-lg">
+      <div class="flex gap-1">
+        <div class="w-2 h-2 bg-blue-600 rounded-full animate-bounce [animation-delay:-.2s]"></div>
+        <div class="w-2 h-2 bg-blue-600 rounded-full animate-bounce [animation-delay:-.1s]"></div>
+        <div class="w-2 h-2 bg-blue-600 rounded-full animate-bounce"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      databaseURL: "YOUR_DATABASE_URL",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    const qs=(s)=>document.querySelector(s); const qsa=(s)=>Array.from(document.querySelectorAll(s));
+    const show=(el)=>el.classList.remove('hidden'); const hide=(el)=>el.classList.add('hidden');
+    const money=(n)=>`৳${Number(n||0).toLocaleString('en-BD')}`; const loading=(f)=>qs('#loader').classList.toggle('hidden',!f);
+
+    // protections
+    window.addEventListener('contextmenu',e=>e.preventDefault());
+    document.addEventListener('selectstart',e=>e.preventDefault());
+    document.addEventListener('keydown',e=>{ if((e.ctrlKey||e.metaKey) && ['+','-','=','_','0'].includes(e.key)) e.preventDefault(); });
+    document.addEventListener('wheel',e=>{ if(e.ctrlKey) e.preventDefault(); }, {passive:false});
+
+    // Drawer
+    const sidebar=qs('#sidebar'); const overlay=qs('#overlay');
+    const openDrawer=()=>{ sidebar.classList.remove('-translate-x-full'); overlay.classList.remove('hidden'); };
+    const closeDrawer=()=>{ sidebar.classList.add('-translate-x-full'); overlay.classList.add('hidden'); };
+    qs('#openSidebar').addEventListener('click',openDrawer); qs('#closeSidebar').addEventListener('click',closeDrawer); overlay.addEventListener('click',closeDrawer);
+
+    // Router
+    const routes=['login','index','category','product','slider','order','order_detail','users','setting'];
+    function nav(){ const h=location.hash.replace('#','')||'login'; routes.forEach(i=>hide(qs('#'+i))); show(qs('#'+h)); }
+    window.addEventListener('hashchange',nav);
+
+    // Admin gate: first email wins
+    async function ensureMainAdmin(email){
+      const s=await db.ref('settings/adminEmail').get();
+      const saved=s.val();
+      if(!saved){ await db.ref('settings/adminEmail').set(email); return true; }
+      return saved===email;
+    }
+
+    auth.onAuthStateChanged(async (u)=>{
+      if(u){
+        const allowed=await ensureMainAdmin(u.email);
+        if(!allowed){ await auth.signOut(); qs('#loginMsg').textContent='This account is not authorized.'; location.hash='#login'; return; }
+        qs('#adminEmail').textContent=u.email;
+        location.hash = '#index';
+        loadDashboard();
+        loadCats();
+        loadProducts();
+        loadSlides();
+        loadOrders();
+        loadUsers();
+        loadSettings();
+      }else{ location.hash='#login'; }
+      nav();
+    });
+
+    qs('#loginForm').addEventListener('submit', async (e)=>{
+      e.preventDefault(); loading(true); qs('#loginMsg').textContent='';
+      try{ await auth.signInWithEmailAndPassword(qs('#email').value.trim(), qs('#pass').value); }
+      catch(err){ qs('#loginMsg').textContent=err.message; }
+      finally{ loading(false); }
+    });
+    qs('#logoutBtn').addEventListener('click',()=>auth.signOut());
+
+    // Dashboard
+    async function loadDashboard(){
+      const users=(await db.ref('users').get()).val()||{}; qs('#cardUsers').textContent=Object.keys(users).length;
+      const prods=(await db.ref('products').get()).val()||{}; qs('#cardProducts').textContent=Object.keys(prods).length;
+      const orders=(await db.ref('orders_all').get()).val()||{}; qs('#cardOrders').textContent=Object.keys(orders).length;
+      const revenue=Object.values(orders).filter(o=>o.status==='Delivered').reduce((a,b)=>a+(b.amount||0),0); qs('#cardRevenue').textContent=money(revenue);
+    }
+
+    // Categories
+    async function loadCats(){
+      const data=(await db.ref('categories').get()).val()||{};
+      const list=qs('#catList'); list.innerHTML='';
+      const sel=qs('#prodCat'); sel.innerHTML='<option value="">Select category</option>';
+      Object.entries(data).forEach(([id,c])=>{
+        const item=document.createElement('div'); item.className='p-3 rounded-xl border flex items-center gap-3';
+        item.innerHTML=`<img src="${c.image}" class="w-12 h-12 rounded-lg object-cover"/><div class="flex-1"><div class="font-medium">${c.name}</div><div class="text-xs text-gray-500">${id}</div></div><div class="flex gap-2"><button class="px-2 py-1 border rounded" data-edit>Edit</button><button class="px-2 py-1 border rounded text-red-600" data-del>Del</button></div>`;
+        item.querySelector('[data-edit]').onclick=()=>{ qs('#catId').value=id; qs('#catName').value=c.name; qs('#catImage').value=c.image; };
+        item.querySelector('[data-del]').onclick=()=>db.ref('categories/'+id).remove().then(loadCats);
+        list.appendChild(item);
+        sel.insertAdjacentHTML('beforeend',`<option value="${id}">${c.name}</option>`);
+      });
+    }
+    qs('#catForm').addEventListener('submit',async (e)=>{
+      e.preventDefault(); loading(true);
+      const id=qs('#catId').value || db.ref('categories').push().key;
+      await db.ref('categories/'+id).set({name:qs('#catName').value.trim(), image:qs('#catImage').value.trim()});
+      qs('#catForm').reset(); qs('#catId').value=''; loading(false); loadCats();
+    });
+
+    // Products
+    async function loadProducts(){
+      const data=(await db.ref('products').get()).val()||{}; const list=qs('#prodList'); list.innerHTML='';
+      Object.entries(data).forEach(([id,p])=>{
+        const d=document.createElement('div'); d.className='p-3 rounded-xl border';
+        d.innerHTML=`<img src="${p.image}" class="w-full h-24 object-cover rounded-lg"/><div class="mt-1 font-medium line-clamp-1">${p.name}</div><div class="text-blue-600 font-bold">${money(p.price)}</div><div class="text-xs text-gray-500">Stock: ${p.stock}</div><div class="mt-2 grid grid-cols-2 gap-2"><button class="px-2 py-1 border rounded" data-edit>Edit</button><button class="px-2 py-1 border rounded text-red-600" data-del>Del</button></div>`;
+        d.querySelector('[data-edit]').onclick=()=>{ qs('#prodId').value=id; qs('#prodName').value=p.name; qs('#prodDesc').value=p.desc||''; qs('#prodPrice').value=p.price; qs('#prodStock').value=p.stock; qs('#prodImage').value=p.image; qs('#prodCat').value=p.category||''; };
+        d.querySelector('[data-del]').onclick=()=>db.ref('products/'+id).remove().then(loadProducts);
+        list.appendChild(d);
+      });
+    }
+    qs('#prodForm').addEventListener('submit',async (e)=>{
+      e.preventDefault(); loading(true);
+      const id=qs('#prodId').value || db.ref('products').push().key;
+      const p={category:qs('#prodCat').value, name:qs('#prodName').value.trim(), desc:qs('#prodDesc').value.trim(), price:Number(qs('#prodPrice').value||0), stock:Number(qs('#prodStock').value||0), image:qs('#prodImage').value.trim()};
+      await db.ref('products/'+id).set(p);
+      qs('#prodForm').reset(); qs('#prodId').value=''; loading(false); loadProducts();
+    });
+
+    // Slider
+    async function loadSlides(){
+      const data=(await db.ref('sliders').get()).val()||{}; const wrap=qs('#slideList'); wrap.innerHTML='';
+      Object.entries(data).forEach(([id,s])=>{
+        const d=document.createElement('div'); d.className='p-3 rounded-xl border';
+        d.innerHTML=`<img src="${s.image}" class="w-full h-24 object-cover rounded-lg"/><div class="text-xs text-gray-500 break-all">${s.link||''}</div><div class="mt-2 grid grid-cols-2 gap-2"><button class="px-2 py-1 border rounded" data-edit>Edit</button><button class="px-2 py-1 border rounded text-red-600" data-del>Del</button></div>`;
+        d.querySelector('[data-edit]').onclick=()=>{ qs('#slideId').value=id; qs('#slideImage').value=s.image; qs('#slideLink').value=s.link||''; };
+        d.querySelector('[data-del]').onclick=()=>db.ref('sliders/'+id).remove().then(loadSlides);
+        wrap.appendChild(d);
+      });
+    }
+    qs('#slideForm').addEventListener('submit',async (e)=>{
+      e.preventDefault(); loading(true);
+      const id=qs('#slideId').value || db.ref('sliders').push().key;
+      await db.ref('sliders/'+id).set({image:qs('#slideImage').value.trim(), link:qs('#slideLink').value.trim()});
+      qs('#slideForm').reset(); qs('#slideId').value=''; loading(false); loadSlides();
+    });
+
+    // Orders
+    async function loadOrders(){
+      const data=(await db.ref('orders_all').get()).val()||{}; const table=qs('#orderTable'); table.innerHTML='';
+      Object.entries(data).sort((a,b)=>b[1].createdAt-a[1].createdAt).forEach(([id,o])=>{
+        const row=document.createElement('div'); row.className='grid grid-cols-5 gap-2 p-2 border rounded-xl text-xs md:text-sm items-center';
+        row.innerHTML=`<div class="truncate">${id}</div><div class="truncate">${o.name||o.uid}</div><div class="font-semibold">${money(o.amount)}</div><div>${o.status}</div><div class="text-right"><button class="px-3 py-1 border rounded" data-open>Open</button></div>`;
+        row.querySelector('[data-open]').onclick=()=>openOrderDetail(id,o);
+        table.appendChild(row);
+      });
+    }
+    function openOrderDetail(id,o){
+      location.hash='#order_detail'; nav();
+      const w=qs('#odWrap'); w.innerHTML='';
+      const top=document.createElement('div'); top.className='p-3 rounded-2xl border';
+      top.innerHTML=`<div class="font-semibold">Order ${id}</div><div class="text-sm text-gray-500">${new Date(o.createdAt).toLocaleString()}</div><div class="mt-2">Customer: ${o.name||''} (${o.phone||''})</div><div class="text-sm">${o.address||''}</div>`; w.appendChild(top);
+      Object.values(o.items).forEach(it=>{
+        const d=document.createElement('div'); d.className='p-3 rounded-xl border flex items-center gap-3';
+        d.innerHTML=`<img src="${it.image}" class="w-14 h-14 rounded-lg object-cover"/><div class="flex-1"><div class="font-medium">${it.name}</div><div class="text-xs text-gray-500">Qty ${it.qty}</div></div><div class="font-semibold">${money(it.qty*it.price)}</div>`; w.appendChild(d);
+      });
+      const act=document.createElement('div'); act.className='p-3 rounded-xl border flex items-center gap-2';
+      act.innerHTML=`<select id="odStatus" class="p-2 rounded border"><option>Placed</option><option>Dispatched</option><option>Delivered</option><option>Cancelled</option></select><button class="px-3 py-2 rounded bg-blue-600 text-white" id="odSave">Update</button>`; w.appendChild(act);
+      qs('#odStatus').value=o.status; qs('#odSave').onclick=async()=>{ loading(true); await db.ref('orders_all/'+id+'/status').set(qs('#odStatus').value); // also update user scoped copy
+        const users=(await db.ref('orders').get()).val()||{}; await Promise.all(Object.entries(users).map(([uid,os])=>{ if(os[id]) return db.ref('orders/'+uid+'/'+id+'/status').set(qs('#odStatus').value); })); loading(false); alert('Status updated'); loadOrders(); };
+    }
+
+    // Users
+    async function loadUsers(){
+      const data=(await db.ref('users').get()).val()||{}; const list=qs('#userList'); list.innerHTML='';
+      Object.entries(data).forEach(([id,u])=>{
+        const d=document.createElement('div'); d.className='p-3 rounded-xl border flex items-center gap-3';
+        d.innerHTML=`<div class="flex-1"><div class="font-medium">${u.name||id}</div><div class="text-xs text-gray-500">${u.email||''}</div></div><button class="px-2 py-1 border rounded text-red-600" data-del>Delete</button>`;
+        d.querySelector('[data-del]').onclick=()=>{ if(confirm('Delete user data?')) db.ref('users/'+id).remove().then(loadUsers); };
+        list.appendChild(d);
+      });
+    }
+
+    // Settings
+    async function loadSettings(){
+      const s=(await db.ref('settings').get()).val()||{}; qs('#appName').value=s.appName||'Mr Ai Prime'; qs('#appLogo').value=s.appLogo||'';
+    }
+    qs('#appForm').addEventListener('submit',async (e)=>{ e.preventDefault(); loading(true); await db.ref('settings').update({appName:qs('#appName').value.trim(), appLogo:qs('#appLogo').value.trim()}); loading(false); alert('Saved'); });
+    qs('#adminForm').addEventListener('submit',async (e)=>{ e.preventDefault(); const u=auth.currentUser; if(!u) return; try{ await u.updatePassword(qs('#newPass').value); alert('Password updated'); }catch(err){ alert(err.message);} });
+
+    // Section hooks
+    window.addEventListener('hashchange',()=>{ if(location.hash==='#index') loadDashboard(); if(location.hash==='#order') loadOrders(); });
+
+    // start
+    nav();
+  </script>
+</body>
+</html>
+
